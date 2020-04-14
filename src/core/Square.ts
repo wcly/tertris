@@ -1,5 +1,6 @@
 import { Point, IViewer } from "./types";
 
+// 方块类
 export class Square {
     private _point: Point = {
         x: 0,
