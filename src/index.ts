@@ -1,38 +1,37 @@
-import { Square } from './core/Square'
 import { SuqarePageViewer } from './core/viewer/SquarePageViewer';
 import $ from 'jquery'
-import { SquareGroup } from './core/SquareGroup';
+import { createTeris } from './core/Tetris';
 
-const group = new SquareGroup([{ x: 0, y: -1 }, { x: -1, y: 0 }, { x: 0, y: 0 }, { x: 0, y: 1 }], { x: 3, y: 2 }, '#fff')
+const tetris = createTeris({ x: 3, y: 2 })
 
-group.squares.forEach(sq => {
+tetris.squares.forEach(sq => {
     sq.viewer = new SuqarePageViewer(sq, $('#root'))
 })
 
 $('#down').click(() => {
-    group.centerPoint = {
-        x: group.centerPoint.x,
-        y: group.centerPoint.y + 1
+    tetris.centerPoint = {
+        x: tetris.centerPoint.x,
+        y: tetris.centerPoint.y + 1
     }
 })
 
 $('#up').click(() => {
-    group.centerPoint = {
-        x: group.centerPoint.x,
-        y: group.centerPoint.y - 1
+    tetris.centerPoint = {
+        x: tetris.centerPoint.x,
+        y: tetris.centerPoint.y - 1
     }
 })
 
 $('#right').click(() => {
-    group.centerPoint = {
-        x: group.centerPoint.x + 1,
-        y: group.centerPoint.y
+    tetris.centerPoint = {
+        x: tetris.centerPoint.x + 1,
+        y: tetris.centerPoint.y
     }
 })
 
 $('#left').click(() => {
-    group.centerPoint = {
-        x: group.centerPoint.x - 1,
-        y: group.centerPoint.y
+    tetris.centerPoint = {
+        x: tetris.centerPoint.x - 1,
+        y: tetris.centerPoint.y
     }
 })
