@@ -21,7 +21,12 @@ module.exports = {
     module: {
         rules: [{
             test: /.ts$/,
-            loader: "ts-loader"
+            use:{
+                loader: "ts-loader",
+                options: {
+                    transpileOnly: true //解决和webpack-dev-server连用造成的新增ts类型没有编译的问题
+                }
+            },
         }]
     },
     resolve: {
