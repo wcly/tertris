@@ -1,37 +1,30 @@
 import { SuqarePageViewer } from './core/viewer/SquarePageViewer';
 import $ from 'jquery'
 import { createTeris } from './core/Tetris';
+import { TerisRule } from './core/TerisRule';
+import { Direction } from './core/types';
 
-const tetris = createTeris({ x: 3, y: 2 })
+const teris = createTeris({ x: 3, y: 2 })
 
-tetris.squares.forEach(sq => {
+teris.squares.forEach(sq => {
     sq.viewer = new SuqarePageViewer(sq, $('#root'))
 })
 
 $('#down').click(() => {
-    tetris.centerPoint = {
-        x: tetris.centerPoint.x,
-        y: tetris.centerPoint.y + 1
-    }
+    TerisRule.moveDirectly(teris, Direction.down)
 })
 
 $('#up').click(() => {
-    tetris.centerPoint = {
-        x: tetris.centerPoint.x,
-        y: tetris.centerPoint.y - 1
-    }
+    TerisRule.move(teris, {
+        x: teris.centerPoint.x,
+        y: teris.centerPoint.y - 1
+    })
 })
 
 $('#right').click(() => {
-    tetris.centerPoint = {
-        x: tetris.centerPoint.x + 1,
-        y: tetris.centerPoint.y
-    }
+    TerisRule.move(teris, Direction.right)
 })
 
 $('#left').click(() => {
-    tetris.centerPoint = {
-        x: tetris.centerPoint.x - 1,
-        y: tetris.centerPoint.y
-    }
+    TerisRule.move(teris, Direction.left)
 })

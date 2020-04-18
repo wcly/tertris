@@ -1,7 +1,7 @@
 export default {
     SquareSize: {
-        width: 30,
-        height: 30,
+        width: 50,
+        height: 50,
         color: 'red'
     }
 }

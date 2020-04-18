@@ -9,9 +9,14 @@ export class SquareGroup {
         return this._squares;
     }
 
+    public get shape() {
+        return this._shape;
+    }
+
     public get centerPoint(): Point {
         return this._centerPoint
     }
+
     public set centerPoint(v: Point) {
         this._centerPoint = v
         this._shape.forEach((p, i) => {
