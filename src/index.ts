@@ -1,34 +1,29 @@
-import { SuqarePageViewer } from './core/viewer/SquarePageViewer';
+import { Game } from "./core/Game";
+import { GamePageViewer } from "./core/viewer/GamePageViewer";
 import $ from 'jquery'
-import { createTeris } from './core/Tetris';
-import { TerisRule } from './core/TerisRule';
-import { Direction } from './core/types';
 
-const teris = createTeris({ x: 3, y: 2 })
+const g = new Game(new GamePageViewer());
 
-teris.squares.forEach(sq => {
-    sq.viewer = new SuqarePageViewer(sq, $('#root'))
+$('#start').click(()=>{
+    g.start();
 })
 
-$('#down').click(() => {
-    TerisRule.moveDirectly(teris, Direction.down)
+$('#pause').click(()=>{
+    g.pause();
 })
 
-$('#up').click(() => {
-    TerisRule.move(teris, {
-        x: teris.centerPoint.x,
-        y: teris.centerPoint.y - 1
-    })
+$('#left').click(()=>{
+    g.controlLeft();
 })
 
-$('#right').click(() => {
-    TerisRule.move(teris, Direction.right)
+$('#right').click(()=>{
+    g.controlRight();
 })
 
-$('#left').click(() => {
-    TerisRule.move(teris, Direction.left)
+$('#down').click(()=>{
+    g.controlDown();
 })
 
-$('#rotate').click(function () {
-   TerisRule.rotate(teris);
+$('#rotate').click(()=>{
+    g.controlRotate();
 })

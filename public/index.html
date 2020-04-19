@@ -7,23 +7,40 @@
     <title>俄罗斯方块</title>
     <style>
         #root {
+            display: flex;
+            justify-content: center;
+        }
+
+        #panel {
+            position: relative;
+            background: #000;
             width: 500px;
             height: 500px;
-            margin: 0 auto;
-            position: relative;
-            border: 1px solid;
-            background: #000;
+        }
+
+        #next {
+            position: absolute;
+            width: 150px;
+            height: 150px;
         }
     </style>
 </head>
 
 <body>
-    <div id="root"></div>
-    <button id="down">向下移动</button>
-    <button id="up">向上移动</button>
-    <button id="left">向左移动</button>
-    <button id="right">向右移动</button>
-    <button id="rotate">顺时针旋转</button>
+    <div id="root">
+        <div id="panel"></div>
+        <div id="tip">
+            <div id="next"></div>
+        </div>
+    </div>
+    <div style="text-align: center;">
+        <button id="start">开始</button>
+        <button id="pause">暂停</button>    
+        <button id="left">向左</button>    
+        <button id="right">向右</button>    
+        <button id="down">向下</button>    
+        <button id="rotate">旋转</button>    
+    </div>
 </body>
 
 </html>
