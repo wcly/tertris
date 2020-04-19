@@ -79,4 +79,18 @@ export class TerisRule {
     static moveDirectly(terise: SquareGroup, direction: Direction) {
         while (this.move(terise, direction)) { }
     }
+
+    /**
+     * 判断是否可以旋转
+     * @param terise 方块
+     */
+    static rotate(terise: SquareGroup): boolean {
+        const newShape = terise.afterRotateShage();
+        if (this.canIMove(newShape, terise.centerPoint)) {
+            terise.rotate();
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

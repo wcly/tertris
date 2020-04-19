@@ -25,7 +25,6 @@ export class Square {
     }
 
     public set point(val) {
-        console.log(val)
         this._point = val;
         // 设置point触发显示
         if (this._viewer) {
