@@ -3,6 +3,7 @@ import { SquareGroup } from "./SquareGroup";
 import { createTeris } from "./Tetris";
 import { TerisRule } from "./TerisRule";
 import GameConfig from "./GameConfig";
+import { Square } from "./Square";
 
 export class Game {
     // 游戏状态
@@ -15,6 +16,8 @@ export class Game {
     private _timer?: number;
     // 自动下落的间隔时间
     private _duration = 1000;
+    // 当前游戏中已存在的方块
+    private _exists: Square[] = []
 
     constructor(private _viewer: GameViewer) {
         this.resetCetnerPoint(GameConfig.nextSize.width, this._nextTeris);
@@ -47,27 +50,28 @@ export class Game {
         }
     }
 
-    controlLeft(){
-        if(this._curTeris && this._gameStatus === GameStatus.playing){
-            TerisRule.move(this._curTeris, Direction.left)
+    controlLeft() {
+        if (this._curTeris && this._gameStatus === GameStatus.playing) {
+            TerisRule.move(this._curTeris, Direction.left, this._exists)
         }
     }
 
-    controlRight(){
-        if(this._curTeris && this._gameStatus === GameStatus.playing){
-            TerisRule.move(this._curTeris, Direction.right)
+    controlRight() {
+        if (this._curTeris && this._gameStatus === GameStatus.playing) {
+            TerisRule.move(this._curTeris, Direction.right, this._exists)
         }
     }
 
-    controlDown(){
-        if(this._curTeris && this._gameStatus === GameStatus.playing){
-            TerisRule.moveDirectly(this._curTeris, Direction.down)
+    controlDown() {
+        if (this._curTeris && this._gameStatus === GameStatus.playing) {
+            TerisRule.moveDirectly(this._curTeris, Direction.down, this._exists)
+            this.hitBottom();
         }
     }
 
-    controlRotate(){
-        if(this._curTeris && this._gameStatus === GameStatus.playing){
-            TerisRule.rotate(this._curTeris)
+    controlRotate() {
+        if (this._curTeris && this._gameStatus === GameStatus.playing) {
+            TerisRule.rotate(this._curTeris, this._exists)
         }
     }
 
@@ -80,7 +84,9 @@ export class Game {
         }
         this._timer = setInterval(() => {
             if (this._curTeris) {
-                TerisRule.move(this._curTeris, Direction.down);
+                if (!TerisRule.move(this._curTeris, Direction.down, this._exists)) {
+                    this.hitBottom()
+                }
             }
         }, this._duration)
     }
@@ -114,5 +120,14 @@ export class Game {
                 }
             })
         }
+    }
+
+    /**
+     * 触底操作
+     */
+    private hitBottom() {
+        // 存入当前方块
+        this._exists.push(...this._curTeris!.squares);
+        this.switchTeris();
     }
 }
