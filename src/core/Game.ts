@@ -128,6 +128,10 @@ export class Game {
     private hitBottom() {
         // 存入当前方块
         this._exists.push(...this._curTeris!.squares);
+        // 处理移除
+        const num = TerisRule.deleteSquares(this._exists);
+        console.log(num)
+        // 切换方块
         this.switchTeris();
     }
 }
