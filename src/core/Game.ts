@@ -15,14 +15,40 @@ export class Game {
     // 计时器
     private _timer?: number;
     // 自动下落的间隔时间
-    private _duration = 1000;
+    private _duration: number;
     // 当前游戏中已存在的方块
     private _exists: Square[] = []
     // 积分
     private _score: number = 0
 
+    public get gameStatus() {
+        return this._gameStatus
+    }
+
+    public get score() {
+        return this._score
+    }
+
+    public set score(val) {
+        this._score = val
+        this._viewer.showScore(val)
+        const level = GameConfig.levels.filter(it => it.score < val).pop()!;
+        if (level.duration === this._duration) {
+            return
+        }
+        this._duration = level.duration
+        if (this._timer) {
+            clearInterval(this._timer)
+            this._timer = undefined
+            this.autoDrop()
+        }
+    }
+
     constructor(private _viewer: GameViewer) {
+        this._duration = GameConfig.levels[0].duration
         this.createNext()
+        this._viewer.init(this)
+        this._viewer.showScore(this.score)
     }
 
     /**
@@ -33,7 +59,7 @@ export class Game {
         this.resetCetnerPoint(GameConfig.nextSize.width, this._nextTeris);
         this._viewer.showNext(this._nextTeris);
     }
-    
+
     /**
      * 游戏初始化
      */
@@ -46,13 +72,14 @@ export class Game {
         this._exists = [];
         this.createNext();
         this._curTeris = undefined
-        this._score = 0;
+        this.score = 0;
     }
 
     /**
      * 游戏开始
      */
     start() {
+        this._viewer.onGameStart();
         // 改变游戏状态
         if (this._gameStatus === GameStatus.playing) {
             return;
@@ -77,6 +104,7 @@ export class Game {
             this._gameStatus = GameStatus.pause;
             clearInterval(this._timer);
             this._timer = undefined;
+            this._viewer.onGamePause();
         }
     }
 
@@ -137,6 +165,7 @@ export class Game {
             this._gameStatus = GameStatus.over;
             clearInterval(this._timer)
             this._timer = undefined;
+            this._viewer.onGameOver();
             return
         }
         this._viewer.switch(this._curTeris);
@@ -184,19 +213,19 @@ export class Game {
         }
         switch (lineNum) {
             case 1:
-                this._score += 10;
+                this.score += 10;
                 break;
             case 2:
-                this._score += 20
+                this.score += 20
                 break;
             case 3:
-                this._score += 30
+                this.score += 30
                 break;
             case 4:
-                this._score += 50
+                this.score += 50
                 break;
             default:
-                this._score += 100
+                this.score += 100
         }
     }
 }

@@ -1,4 +1,5 @@
 import { SquareGroup } from "./SquareGroup";
+import { Game } from "./Game";
 
 export interface Point {
     x: number,
@@ -32,9 +33,28 @@ export interface GameViewer {
      * @param teris 下一个方块对象
      */
     showNext(teris: SquareGroup): void;
+
     /**
      * 切换方块
      * @param teris 切换方块对象
      */
     switch(teris: SquareGroup): void;
+
+    /**
+     * 完成界面的初始化
+     * @param game 
+     */
+    init(game: Game): void;
+
+    /**
+     * 显示分数
+     * @param score 分数 
+     */
+    showScore(score: number): void;
+
+    onGamePause():void;
+
+    onGameStart():void;
+
+    onGameOver():void;
 }
